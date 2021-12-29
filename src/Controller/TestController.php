@@ -22,6 +22,8 @@ class TestController extends AbstractController
 
             $entityManager->persist($child);
             $entityManager->flush();
+
+            return new Response('SAVED');
         }
 
         return $this->render('test.html.twig', [
