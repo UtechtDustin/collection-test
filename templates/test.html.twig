@@ -1,0 +1,204 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form_start(form) }}
+    <div class="tab-pane show" id="contactDetails">
+        <template id="contactDetailsPrototype">
+            <div class="accordion-item">
+                <div class="accordion-header mt-0">
+                    <div class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contactPersonAccordion__name__" aria-expanded="true" aria-controls="contactPersonAccordion__name__">
+                        <button class="btn btn-sm btn-outline-danger me-2 removeContactDetail" type="button">
+                            <i class="uil-trash"></i> löschen
+                        </button>
+                        <span class="lastname">???, </span>
+                        <span class="firstname">???</span>
+                    </div>
+                </div>
+                <div id="contactPersonAccordion__name__" class="accordion-collapse collapse" aria-labelledby="contactPersonAccordion__name__" data-bs-parent="#contactPersonsAccordion">
+                    <div class="accordion-body">
+                        <div class="row">
+                            <div class="col-md col-sm-12 mb-3">
+                                {{ form_label(form.contactPersons.vars.prototype.firstName) }}
+                                {{ form_widget(form.contactPersons.vars.prototype.firstName) }}
+                                {{ form_errors(form.contactPersons.vars.prototype.firstName) }}
+                            </div>
+                            <div class="col-md col-sm-12 mb-3">
+                                {{ form_label(form.contactPersons.vars.prototype.lastName) }}
+                                {{ form_widget(form.contactPersons.vars.prototype.lastName) }}
+                                {{ form_errors(form.contactPersons.vars.prototype.lastName) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-sm12 mb-3">
+                                {{ form_label(form.contactPersons.vars.prototype.street) }}
+                                {{ form_widget(form.contactPersons.vars.prototype.street) }}
+                                {{ form_errors(form.contactPersons.vars.prototype.street) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md col-sm-12 mb-3">
+                                {{ form_label(form.contactPersons.vars.prototype.cityCode) }}
+                                {{ form_widget(form.contactPersons.vars.prototype.cityCode) }}
+                                {{ form_errors(form.contactPersons.vars.prototype.cityCode) }}
+                            </div>
+                            <div class="col-md col-sm-12 mb-3">
+                                {{ form_label(form.contactPersons.vars.prototype.city) }}
+                                {{ form_widget(form.contactPersons.vars.prototype.city) }}
+                                {{ form_errors(form.contactPersons.vars.prototype.city) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md col-sm-12 mb-3">
+                                {{ form_label(form.contactPersons.vars.prototype.email) }}
+                                {{ form_widget(form.contactPersons.vars.prototype.email) }}
+                                {{ form_errors(form.contactPersons.vars.prototype.email) }}
+                            </div>
+                            <div class="col-md col-sm-12 mb-3">
+                                {{ form_label(form.contactPersons.vars.prototype.mobile) }}
+                                {{ form_widget(form.contactPersons.vars.prototype.mobile) }}
+                                {{ form_errors(form.contactPersons.vars.prototype.mobile) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md col-sm-12 mb-3">
+                                {{ form_label(form.contactPersons.vars.prototype.phone) }}
+                                {{ form_widget(form.contactPersons.vars.prototype.phone) }}
+                                {{ form_errors(form.contactPersons.vars.prototype.phone) }}
+                            </div>
+                            <div class="col-md col-sm-12 mb-3">
+                                {{ form_label(form.contactPersons.vars.prototype.workPhone) }}
+                                {{ form_widget(form.contactPersons.vars.prototype.workPhone) }}
+                                {{ form_errors(form.contactPersons.vars.prototype.workPhone) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col mb-3">
+                                {{ form_label(form.contactPersons.vars.prototype.notes) }}
+                                {{ form_widget(form.contactPersons.vars.prototype.notes) }}
+                                {{ form_errors(form.contactPersons.vars.prototype.notes) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-primary mb-1 m-auto" type="button" id="addNewContactDetails">Neue Kontaktdaten anlegen</button>
+            </div>
+        </div>
+        <div class="accordion" id="contactPersonsAccordion">
+            {% for index, contactPerson in form.contactPersons %}
+                {% set firstName = form.contactPersons[index].vars.value ? form.contactPersons[index].vars.value.firstname : '???'  %}
+                {% set lastName = form.contactPersons[index].vars.value ? form.contactPersons[index].vars.value.lastname : '???' %}
+                <div class="accordion-item {{ form.contactPersons[index].vars.valid ? '' : 'border-danger' }}">
+                    <div class="accordion-header mt-0">
+                        <div class="accordion-button {{ form.contactPersons[index].vars.valid ? 'collapsed' : 'bg-danger text-white' }}" type="button" data-bs-toggle="collapse" data-bs-target="#contactPersonAccordion{{ index }}" aria-expanded="true" aria-controls="contactPersonAccordion{{ index }}">
+                            <button class="btn btn-sm btn-outline-danger me-2 removeContactDetail {{ form.contactPersons[index].vars.valid ? '' : 'border-white text-white' }}" type="button">
+                                <i class="uil-trash"></i> löschen
+                            </button>
+                            <div>
+                                <span class="lastname">{{ lastName|default('???') }}, </span>
+                                <span class="firstname">{{ firstName|default('???') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="contactPersonAccordion{{ index }}" class="accordion-collapse collapse {{ form.contactPersons[index].vars.valid ? '' : 'show' }}" aria-labelledby="contactPersonAccordion{{ index }}" data-bs-parent="#contactPersonsAccordion">
+                        <div class="accordion-body">
+                            <div class="row">
+                                <div class="col-md col-sm-12 mb-3">
+                                    {{ form_label(contactPerson.firstName) }}
+                                    {{ form_widget(contactPerson.firstName) }}
+                                    {{ form_errors(contactPerson.firstName) }}
+                                </div>
+                                <div class="col-md col-sm-12 mb-3">
+                                    {{ form_label(contactPerson.lastName) }}
+                                    {{ form_widget(contactPerson.lastName) }}
+                                    {{ form_errors(contactPerson.lastName) }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 col-sm12 mb-3">
+                                    {{ form_label(contactPerson.street) }}
+                                    {{ form_widget(contactPerson.street) }}
+                                    {{ form_errors(contactPerson.street) }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md col-sm-12 mb-3">
+                                    {{ form_label(contactPerson.cityCode) }}
+                                    {{ form_widget(contactPerson.cityCode) }}
+                                    {{ form_errors(contactPerson.cityCode) }}
+                                </div>
+                                <div class="col-md col-sm-12 mb-3">
+                                    {{ form_label(contactPerson.city) }}
+                                    {{ form_widget(contactPerson.city) }}
+                                    {{ form_errors(contactPerson.city) }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md col-sm-12 mb-3">
+                                    {{ form_label(contactPerson.email) }}
+                                    {{ form_widget(contactPerson.email) }}
+                                    {{ form_errors(contactPerson.email) }}
+                                </div>
+                                <div class="col-md col-sm-12 mb-3">
+                                    {{ form_label(contactPerson.mobile) }}
+                                    {{ form_widget(contactPerson.mobile) }}
+                                    {{ form_errors(contactPerson.mobile) }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md col-sm-12 mb-3">
+                                    {{ form_label(contactPerson.phone) }}
+                                    {{ form_widget(contactPerson.phone) }}
+                                    {{ form_errors(contactPerson.phone) }}
+                                </div>
+                                <div class="col-md col-sm-12 mb-3">
+                                    {{ form_label(contactPerson.workPhone) }}
+                                    {{ form_widget(contactPerson.workPhone) }}
+                                    {{ form_errors(contactPerson.workPhone) }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col mb-3">
+                                    {{ form_label(contactPerson.notes) }}
+                                    {{ form_widget(contactPerson.notes) }}
+                                    {{ form_errors(contactPerson.notes) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <button type="submit">Submit</button>
+    {{ form_end(form) }}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+      $(() => {
+        let contactDetailCount = $('.accordion-item').length
+        $('#addNewContactDetails').click((e) => {
+          const template = $('#contactDetailsPrototype').html().replace(/__name__/g, contactDetailCount);
+          $('#contactPersonsAccordion').append(template)
+          contactDetailCount++;
+        })
+
+        $('body').on('click', '.removeContactDetail', (e) => {
+          $(e.currentTarget).parents('.accordion-item').remove();
+        })
+      })
+    </script>
+{% endblock %}
